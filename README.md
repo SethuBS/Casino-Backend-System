@@ -111,12 +111,12 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 3. Click `Send`.
 
 ### Expected Response:
-   ```json
-  {
+```json
+{
     "playerId": 1,
-    "balance": 100.00
-  }
-  ```
+    "balance": 1000.00
+}
+```
 
 #### Error Scenarios:
 
@@ -124,10 +124,10 @@ Welcome to the Casino Backend System project! This project is a proof of concept
   ### Expected Response:
     ```json
     {
-    "timestamp": "2024-05-23T19:17:12.29113",
+    "timestamp": "2024-05-24T00:35:53.3791257",
     "status": 400,
     "error": "BAD_REQUEST",
-    "reason": "Invalid player Id",
+    "reason": "The player ID you provided is not valid. Please enter a valid player ID.",
     "path": "/casino/player/2/balance"
     }
   ```
@@ -140,10 +140,17 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 - **Request Body:**
    ```json
      {
-    "amount": 10.00,
+    "amount": "555.95",
     "transactionType": "WAGER"
     }
-    ```
+```
+ ```json
+     {
+    "amount": "259.80",
+    "transactionType": "Win"
+    }
+```
+
 ### Steps:
 
 1. Open Postman and create a new GET request.
