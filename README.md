@@ -139,17 +139,17 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 - **Path Variable:** `playerId` - The ID of the player (e.g., `1`).
 - **Request Body:**
 ```json
-     {
+{
     "amount": "555.95",
     "transactionType": "WAGER"
-    }
+}
 ```
 
 ```json
-     {
+{
     "amount": "259.80",
     "transactionType": "Win"
-    }
+}
 ```
 
 ### Steps:
@@ -169,13 +169,13 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 - ***Invalid Player ID:*** When an invalid `playerId` is provided, expect a 400 Bad Request response with an appropriate error message.
   ### Expected Response:
   ```json
-    {
+{
     "timestamp": "2024-05-23T19:36:43.4585764",
     "status": 400,
     "error": "BAD_REQUEST",
     "reason": "Invalid player Id",
     "path": "/casino/player/2/balance"
-    }
+}
   ```
   
 **2. Update Player Balance**
@@ -198,10 +198,10 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 2. Enter the URL `http://localhost:8080/casino/player/1/balance/update`.
 3. Set the request body to:
 ```json
-   {
+{
     "amount": 10.00,
     "transactionType": "WAGER"
-   }
+}
 ```
 
 4. Click `Send`.
@@ -288,9 +288,9 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 - **URL:** `http://localhost:8080/casino/admin/player/transactions`
 - **Request Body:**
 ```json
-  {
+{
     "username": "player1"
-  }
+}
 ```
 ### Steps:
 
@@ -298,15 +298,15 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 2. Enter the URL `http://localhost:8080/casino/admin/player/transactions`.
 3. Set the request body to:
 ```json
-  {
+{
     "username": "player1"
-  }
+}
 ```
 Click `Send`.
 
 ### Expected Response:
 ```json
-  {
+{
     [
     {
         "transactionType": "WIN",
@@ -359,7 +359,7 @@ Click `Send`.
         "amount": 84.48
     }
 ]
-  }
+}
 ```
 
 ### Error Scenarios:
