@@ -138,13 +138,14 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 - **URL:** `http://localhost:8080/casino/player/{playerId}/balance/update`
 - **Path Variable:** `playerId` - The ID of the player (e.g., `1`).
 - **Request Body:**
-   ```json
+```json
      {
     "amount": "555.95",
     "transactionType": "WAGER"
     }
 ```
- ```json
+
+```json
      {
     "amount": "259.80",
     "transactionType": "Win"
