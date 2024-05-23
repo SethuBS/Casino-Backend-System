@@ -44,27 +44,32 @@ public class PlayerService {
 
 
     public BalanceResponse getBalance(Integer playerId) {
-        var player = playerRepository.findById(playerId)
-                .orElseThrow(() -> new PlayerNotFoundException("Invalid player Id"));
+        try {
+            var player = playerRepository.findById(playerId)
+                    .orElseThrow(() -> new PlayerNotFoundException("The player ID you provided is not valid. Please enter a valid player ID."));
 
-        logger.info("Player: {}", player);
-        return BalanceResponse
-                .builder()
-                .playerId(player.getPlayerId())
-                .balance(player.getBalance())
-                .build();
+            logger.info("Player: {}", player);
+            return BalanceResponse
+                    .builder()
+                    .playerId(player.getPlayerId())
+                    .balance(player.getBalance())
+                    .build();
+
+        } catch (PlayerNotFoundException e) {
+            throw new InvalidTransactionException(e.getMessage());
+        }
     }
 
     public Player getPlayerByUsername(String username) {
         return playerRepository.findByUsername(username)
-                .orElseThrow(() -> new PlayerUserNameNotFoundException("Invalid username"));
+                .orElseThrow(() -> new PlayerUserNameNotFoundException("The username you provided is not recognized. Please enter a valid username."));
     }
 
     public UpdateBalanceResponse updateBalance(Integer playerId, UpdateBalanceRequest request) {
         lock.lock();
         try {
             var player = playerRepository.findById(playerId)
-                    .orElseThrow(() -> new PlayerNotFoundException("Invalid player Id"));
+                    .orElseThrow(() -> new PlayerNotFoundException("The player ID you provided is not valid. Please enter a valid player ID."));
 
             logPlayerInfo(player);
             validateRequest(request, player);
@@ -80,6 +85,13 @@ public class PlayerService {
                     .transactionId(savedTransaction.getTransactionId())
                     .balance(player.getBalance())
                     .build();
+
+        } catch (PlayerNotFoundException e) {
+            throw new PlayerNotFoundException(e.getMessage());
+        } catch (InvalidTransactionException e) {
+            throw new InvalidTransactionException(e.getMessage());
+        } catch (InsufficientBalanceException e) {
+            throw new InsufficientBalanceException(e.getMessage());
         } finally {
             lock.unlock();
         }
@@ -91,11 +103,11 @@ public class PlayerService {
 
     private void validateRequest(UpdateBalanceRequest request, Player player) {
         if (request.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidTransactionException("Amount must be positive");
+            throw new InvalidTransactionException("The amount must be a positive value. Please enter a valid amount greater than zero.");
         }
 
         if (TransactionType.WAGER.equals(request.getTransactionType()) && player.getBalance().compareTo(request.getAmount()) < 0) {
-            throw new InsufficientBalanceException("Wager greater than current balance");
+            throw new InsufficientBalanceException("You do not have sufficient balance to place this wager. Please adjust your wager to be within your available balance.");
         }
 
         logger.info("UpdateBalanceResponse current balance: {}", player.getBalance());
@@ -120,18 +132,23 @@ public class PlayerService {
     }
 
     public List<Last10TransactionResponse> getLast10Transactions(Player player) {
-        List<Transaction> transactions = transactionRepository.findTop10ByPlayerOrderByTimestampDesc(player);
-        List<Last10TransactionResponse> last10TransactionResponseList = new ArrayList<>();
-        for (var transaction : transactions) {
-            var transactionResponse = Last10TransactionResponse
-                    .builder()
-                    .transactionType(transaction.getTransactionType())
-                    .transactionId(transaction.getTransactionId())
-                    .amount(transaction.getAmount())
-                    .build();
-            last10TransactionResponseList.add(transactionResponse);
+        try {
+            List<Transaction> transactions = transactionRepository.findTop10ByPlayerOrderByTimestampDesc(player);
+            List<Last10TransactionResponse> last10TransactionResponseList = new ArrayList<>();
+            for (var transaction : transactions) {
+                var transactionResponse = Last10TransactionResponse
+                        .builder()
+                        .transactionType(transaction.getTransactionType())
+                        .transactionId(transaction.getTransactionId())
+                        .amount(transaction.getAmount())
+                        .build();
+                last10TransactionResponseList.add(transactionResponse);
+            }
+            logger.info("Top: {} transactions: {}", last10TransactionResponseList.size(), last10TransactionResponseList);
+            return last10TransactionResponseList;
+
+        } catch (PlayerUserNameNotFoundException e) {
+            throw new PlayerUserNameNotFoundException(e.getMessage());
         }
-        logger.info("Top: {} transactions: {}", last10TransactionResponseList.size(), last10TransactionResponseList);
-        return last10TransactionResponseList;
     }
 }

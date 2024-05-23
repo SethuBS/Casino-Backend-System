@@ -1,9 +1,6 @@
 package com.casino.backend.customError;
 
-import com.casino.backend.exception.InsufficientBalanceException;
-import com.casino.backend.exception.InvalidTransactionException;
-import com.casino.backend.exception.PlayerNotFoundException;
-import com.casino.backend.exception.PlayerUserNameNotFoundException;
+import com.casino.backend.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +58,17 @@ public class CustomErrorHandler {
 
     @ExceptionHandler(PlayerUserNameNotFoundException.class)
     public ResponseEntity<ErrorDetail> handlePlayerUserNameNotFoundException(PlayerUserNameNotFoundException e) {
+        ErrorDetail error = new ErrorDetail();
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setError(HttpStatus.BAD_REQUEST.name());
+        error.setReason(e.getMessage());
+        getServletRequestAttributesAndSetPath(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(InvalidTransactionTypeException.class)
+    public ResponseEntity<ErrorDetail> handleInvalidTransactionTypeException(InvalidTransactionTypeException e) {
         ErrorDetail error = new ErrorDetail();
         error.setTimestamp(LocalDateTime.now());
         error.setStatus(HttpStatus.BAD_REQUEST.value());

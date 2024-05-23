@@ -1,5 +1,6 @@
 package com.casino.backend.enums;
 
+import com.casino.backend.exception.InvalidTransactionTypeException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -47,7 +48,7 @@ public enum TransactionType {
                 }
             }
             // Throw an exception if no matching enum constant is found
-            throw new IllegalArgumentException("Invalid transaction type: " + value);
+            throw new InvalidTransactionTypeException("Invalid transaction type: " + value + ". Please ensure that you use 'WIN' or 'WAGER' as the transaction type.");
         }
     }
 }
