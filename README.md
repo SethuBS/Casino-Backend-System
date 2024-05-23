@@ -124,12 +124,27 @@ Welcome to the Casino Backend System project! This project is a proof of concept
   ### Expected Response:
     ```json
     {
-    "timestamp": "2024-05-23T13:13:47.033+00:00",
+    "timestamp": "2024-05-23T19:17:12.29113",
     "status": 400,
-    "error": "Bad Request",
-    "path": "/casino/player/10/balance"
-    }
+    "error": "BAD_REQUEST",
+    "reason": "Invalid player Id",
+    "path": "/casino/player/2/balance"
+}
     ```
+    
+2. ### Update Player Balance
+   ***Scenario 1:*** Update the balance of a player with a valid wager transaction.
+- **Method:** POST
+- **URL:** `http://localhost:8080/casino/player/{playerId}/balance/update`
+- **Path Variable:** `playerId` - The ID of the player (e.g., `1`).
+- **Request Body:**
+   ```json
+   {
+    "amount": 10.00,
+    "transactionType": "WAGER"
+}
+    ```
+
 
 
 
