@@ -189,14 +189,14 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 1. Open Postman and create a new POST request.
 2. Enter the URL `http://localhost:8080/casino/player/1/balance/update`.
 3. Set the request body to:
-   ```json
+```json
    {
     "amount": 10.00,
     "transactionType": "WAGER"
    }
 ```
-4. Click `Send`.
 
+4. Click `Send`.
 **Expected Response:**
 ```json
 {
