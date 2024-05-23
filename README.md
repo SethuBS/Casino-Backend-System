@@ -115,7 +115,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
   {
     "playerId": 1,
     "balance": 100.00
-}
+  }
   ```
 
 #### Error Scenarios:
@@ -124,12 +124,261 @@ Welcome to the Casino Backend System project! This project is a proof of concept
   ### Expected Response:
     ```json
     {
-    "timestamp": "2024-05-23T13:13:47.033+00:00",
+    "timestamp": "2024-05-23T19:17:12.29113",
     "status": 400,
-    "error": "Bad Request",
-    "path": "/casino/player/10/balance"
+    "error": "BAD_REQUEST",
+    "reason": "Invalid player Id",
+    "path": "/casino/player/2/balance"
+    }
+  ```
+    
+2. ### Update Player Balance
+   ***Scenario 1:*** Update the balance of a player with a valid wager transaction.
+- **Method:** POST
+- **URL:** `http://localhost:8080/casino/player/{playerId}/balance/update`
+- **Path Variable:** `playerId` - The ID of the player (e.g., `1`).
+- **Request Body:**
+   ```json
+     {
+    "amount": 10.00,
+    "transactionType": "WAGER"
     }
     ```
+### Steps:
+
+1. Open Postman and create a new GET request.
+2. Enter the URL `http://localhost:8080/casino/player/1/balance.`
+3. Click Send.
+### Expected Response:
+```json
+{
+    "playerId": 1,
+    "balance": 100.00
+}
+```
+### Error Scenarios:
+
+- ***Invalid Player ID:*** When an invalid `playerId` is provided, expect a 400 Bad Request response with an appropriate error message.
+  ### Expected Response:
+  ```json
+    {
+    "timestamp": "2024-05-23T19:36:43.4585764",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Invalid player Id",
+    "path": "/casino/player/2/balance"
+    }
+  ```
+  
+**2. Update Player Balance**
+***Scenario 1:*** Update the balance of a player with a valid wager transaction.
+
+-**Method:** POST
+-**URL:** `http://localhost:8080/casino/player/{playerId}/balance/update`
+-**Path Variable:** `playerId` - The ID of the player (e.g., `1`).
+-**Request Body:**
+```json
+{
+    "amount": 10.00,
+    "transactionType": "WAGER"
+}
+
+```
+### Steps:
+
+1. Open Postman and create a new POST request.
+2. Enter the URL `http://localhost:8080/casino/player/1/balance/update`.
+3. Set the request body to:
+```json
+   {
+    "amount": 10.00,
+    "transactionType": "WAGER"
+   }
+```
+
+4. Click `Send`.
+**Expected Response:**
+```json
+{
+    "transactionId": 123456,
+    "balance": 90.00
+}
+```
+
+***Scenario 2***: Update the balance of a player with a valid win transaction.
+
+-**Request Body:**
+```json
+{
+    "amount": 50.00,
+    "transactionType": "WIN"
+}
+```
+
+
+### Steps:
+
+1. Follow the same steps as Scenario 1, but change the request body to:
+```json
+{
+    "amount": 50.00,
+    "transactionType": "WIN"
+}
+```
+2. Click `Send`.
+
+### Expected Response:
+```json
+{
+    "transactionId": 123457,
+    "balance": 140.00
+}
+```
+
+
+### Error Scenarios:
+
+- ***Invalid Player ID:*** Expect a 400 Bad Request response with an appropriate error message.
+### Expected Response:
+```json
+{
+    "timestamp": "2024-05-23T19:51:20.1362507",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Invalid player Id",
+    "path": "/casino/player/2/balance/update"
+}
+```
+- ***Negative Amount:*** Expect a 400 Bad Request response if the amount is negative.
+### Expected Response:
+```json
+{
+    "timestamp": "2024-05-23T19:54:03.3576626",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Amount must be positive",
+    "path": "/casino/player/1/balance/update"
+}
+```
+- ***Wager Greater than Balance:*** Expect a 418 I'm a teapot response if the wager amount exceeds the current balance.
+### Expected Response:
+```json
+{
+    "timestamp": "2024-05-23T19:54:42.8266459",
+    "status": 418,
+    "error": "I_AM_A_TEAPOT",
+    "reason": "Wager greater than current balance",
+    "path": "/casino/player/1/balance/update"
+}
+```
+
+**3. Get Last 10 Transactions**
+
+**Scenario:** Retrieve the last ten transactions for a player by username.
+
+- **Method:** POST
+- **URL:** `http://localhost:8080/casino/admin/player/transactions`
+- **Request Body:**
+```json
+  {
+    "username": "player1"
+  }
+```
+### Steps:
+
+1. Open Postman and create a new POST request.
+2. Enter the URL `http://localhost:8080/casino/admin/player/transactions`.
+3. Set the request body to:
+```json
+  {
+    "username": "player1"
+  }
+```
+Click `Send`.
+
+### Expected Response:
+```json
+  {
+    [
+    {
+        "transactionType": "WIN",
+        "transactionId": 7,
+        "amount": 30.71
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 9,
+        "amount": 3.93
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 2,
+        "amount": 95.85
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 1,
+        "amount": 13.72
+    },
+    {
+        "transactionType": "WIN",
+        "transactionId": 8,
+        "amount": 68.15
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 4,
+        "amount": 74.67
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 11,
+        "amount": 45.29
+    },
+    {
+        "transactionType": "WIN",
+        "transactionId": 3,
+        "amount": 32.31
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 5,
+        "amount": 18.43
+    },
+    {
+        "transactionType": "WIN",
+        "transactionId": 10,
+        "amount": 84.48
+    }
+]
+  }
+```
+
+### Error Scenarios:
+- **Invalid Username:** Expect a 400 Bad Request response with an appropriate error message.
+  ### Expected Response:
+
+```json
+  {
+    "timestamp": "2024-05-23T20:20:12.2185456",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Invalid username",
+    "path": "/casino/admin/player/transactions"
+  }
+```
+
+# Future Improvements
+- Expand the database integration for production use.
+- Implement additional security measures.
+- Enhance error handling and validation.
+
+# Contributing
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+
+# License
+This project is licensed under the MIT License. See the [MIT License](LICENSE) file for details.
+
 
 
 
