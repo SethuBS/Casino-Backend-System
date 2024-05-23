@@ -6,6 +6,7 @@ import com.casino.backend.enums.TransactionType;
 import com.casino.backend.exception.InsufficientBalanceException;
 import com.casino.backend.exception.InvalidTransactionException;
 import com.casino.backend.exception.PlayerNotFoundException;
+import com.casino.backend.exception.PlayerUserNameNotFoundException;
 import com.casino.backend.request.Last10TransactionRequest;
 import com.casino.backend.request.UpdateBalanceRequest;
 import com.casino.backend.response.BalanceResponse;
@@ -167,9 +168,9 @@ public class PlayerControllerTest {
         var request = new Last10TransactionRequest("player1");
 
         // When
-        when(playerService.getPlayerByUsername(request.getUsername())).thenThrow(new PlayerNotFoundException("Invalid username"));
+        when(playerService.getPlayerByUsername(request.getUsername())).thenThrow(new PlayerUserNameNotFoundException("Invalid username"));
 
         // Then
-        assertThrows(PlayerNotFoundException.class, () -> playerController.getLast10Transactions(request));
+        assertThrows(PlayerUserNameNotFoundException.class, () -> playerController.getLast10Transactions(request));
     }
 }

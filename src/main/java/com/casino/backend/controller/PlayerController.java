@@ -44,4 +44,5 @@ public class PlayerController {
         List<Last10TransactionResponse> transactions = playerService.getLast10Transactions(player);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
+
 }

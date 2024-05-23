@@ -7,6 +7,7 @@ import com.casino.backend.enums.TransactionType;
 import com.casino.backend.exception.InsufficientBalanceException;
 import com.casino.backend.exception.InvalidTransactionException;
 import com.casino.backend.exception.PlayerNotFoundException;
+import com.casino.backend.exception.PlayerUserNameNotFoundException;
 import com.casino.backend.repository.PlayerRepository;
 import com.casino.backend.repository.TransactionRepository;
 import com.casino.backend.request.UpdateBalanceRequest;
@@ -56,7 +57,7 @@ public class PlayerService {
 
     public Player getPlayerByUsername(String username) {
         return playerRepository.findByUsername(username)
-                .orElseThrow(() -> new PlayerNotFoundException("Invalid username"));
+                .orElseThrow(() -> new PlayerUserNameNotFoundException("Invalid username"));
     }
 
     public UpdateBalanceResponse updateBalance(Integer playerId, UpdateBalanceRequest request) {
@@ -89,7 +90,7 @@ public class PlayerService {
     }
 
     private void validateRequest(UpdateBalanceRequest request, Player player) {
-        if (request.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        if (request.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidTransactionException("Amount must be positive");
         }
 
