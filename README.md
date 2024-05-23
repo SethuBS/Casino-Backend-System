@@ -92,3 +92,44 @@ Welcome to the Casino Backend System project! This project is a proof of concept
    ```sh
    git clone https://github.com/SethuBS/Casino-Backend-System.git
    cd casino-backend-system
+   mvn clean install
+   mvn spring-boot:run
+
+### Access the Application
+- The application will be accessible at `http://localhost:8080/casino`.
+
+### Testing
+1. Get Player Balance
+   - **Errors**: Retrieve the balance of an existing player.
+   - **Method**: GET
+   - URL: `http://localhost:8080/casino/player/{playerId}/balance`
+   - **Path Variable**: `playerId` - The ID of the player (e.g., `1`)
+
+### Steps:
+1. Open Postman and create a new GET request.
+2. Enter the `URL http://localhost:8080/casino/player/1/balance`.
+3. Click `Send`.
+
+### Expected Response:
+   ```json
+  {
+    "playerId": 1,
+    "balance": 100.00
+}
+  ```
+
+#### Error Scenarios:
+
+- ***Invalid Player ID***: When an invalid `playerId` is provided, expect a 400 Bad Request response with an appropriate error message.
+  ### Expected Response:
+    ```json
+    {
+    "timestamp": "2024-05-23T13:13:47.033+00:00",
+    "status": 400,
+    "error": "Bad Request",
+    "path": "/casino/player/10/balance"
+    }
+    ```
+
+
+
