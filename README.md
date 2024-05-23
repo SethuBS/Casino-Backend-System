@@ -83,7 +83,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 ## Getting Started
 
 ### Prerequisites
-- Java 8 or higher
+- Java 17 
 - Maven
 
 ### Setup Instructions
