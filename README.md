@@ -357,16 +357,27 @@ Click `Send`.
 ### Error Scenarios:
 - **Invalid Username:** Expect a 400 Bad Request response with an appropriate error message.
   ### Expected Response:
-  ```json
+
+```json
   {
     "timestamp": "2024-05-23T20:20:12.2185456",
     "status": 400,
     "error": "BAD_REQUEST",
     "reason": "Invalid username",
     "path": "/casino/admin/player/transactions"
-}
+  }
 ```
 
+# Future Improvements
+- Expand the database integration for production use.
+- Implement additional security measures.
+- Enhance error handling and validation.
+
+# Contributing
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+
+# License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 
 
