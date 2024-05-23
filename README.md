@@ -122,15 +122,16 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 
 - ***Invalid Player ID***: When an invalid `playerId` is provided, expect a 400 Bad Request response with an appropriate error message.
   ### Expected Response:
-    ```json
-    {
+
+```json
+{
     "timestamp": "2024-05-24T00:35:53.3791257",
     "status": 400,
     "error": "BAD_REQUEST",
     "reason": "The player ID you provided is not valid. Please enter a valid player ID.",
     "path": "/casino/player/2/balance"
-    }
-  ```
+}
+```
     
 2. ### Update Player Balance
    ***Scenario 1:*** Update the balance of a player with a valid wager transaction.
