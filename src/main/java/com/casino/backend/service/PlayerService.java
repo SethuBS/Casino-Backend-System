@@ -64,7 +64,7 @@ public class PlayerService {
         lock.lock();
         try {
             var player = playerRepository.findById(playerId)
-                    .orElseThrow(() -> new PlayerNotFoundException("Invalid playerId"));
+                    .orElseThrow(() -> new PlayerNotFoundException("Invalid player Id"));
 
             logPlayerInfo(player);
             validateRequest(request, player);
