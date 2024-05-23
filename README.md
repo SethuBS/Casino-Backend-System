@@ -238,7 +238,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 
 ### Error Scenarios:
 
--***Invalid Player ID:*** Expect a 400 Bad Request response with an appropriate error message.
+- ***Invalid Player ID:*** Expect a 400 Bad Request response with an appropriate error message.
 ### Expected Response:
 ```json
 {
@@ -249,7 +249,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
     "path": "/casino/player/2/balance/update"
 }
 ```
--***Negative Amount:*** Expect a 400 Bad Request response if the amount is negative.
+- ***Negative Amount:*** Expect a 400 Bad Request response if the amount is negative.
 ### Expected Response:
 ```json
 {
@@ -260,7 +260,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
     "path": "/casino/player/1/balance/update"
 }
 ```
--***Wager Greater than Balance:*** Expect a 418 I'm a teapot response if the wager amount exceeds the current balance.
+- ***Wager Greater than Balance:*** Expect a 418 I'm a teapot response if the wager amount exceeds the current balance.
 ### Expected Response:
 ```json
 {
@@ -271,5 +271,103 @@ Welcome to the Casino Backend System project! This project is a proof of concept
     "path": "/casino/player/1/balance/update"
 }
 ```
+
+**3. Get Last 10 Transactions**
+
+**Scenario:** Retrieve the last ten transactions for a player by username.
+
+- **Method:** POST
+- **URL:** `http://localhost:8080/casino/admin/player/transactions`
+- **Request Body:**
+```json
+  {
+    "username": "player1"
+  }
+```
+### Steps:
+
+1. Open Postman and create a new POST request.
+2. Enter the URL `http://localhost:8080/casino/admin/player/transactions`.
+3. Set the request body to:
+```json
+  {
+    "username": "player1"
+  }
+```
+Click `Send`.
+
+### Expected Response:
+```json
+  {
+    [
+    {
+        "transactionType": "WIN",
+        "transactionId": 7,
+        "amount": 30.71
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 9,
+        "amount": 3.93
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 2,
+        "amount": 95.85
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 1,
+        "amount": 13.72
+    },
+    {
+        "transactionType": "WIN",
+        "transactionId": 8,
+        "amount": 68.15
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 4,
+        "amount": 74.67
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 11,
+        "amount": 45.29
+    },
+    {
+        "transactionType": "WIN",
+        "transactionId": 3,
+        "amount": 32.31
+    },
+    {
+        "transactionType": "WAGER",
+        "transactionId": 5,
+        "amount": 18.43
+    },
+    {
+        "transactionType": "WIN",
+        "transactionId": 10,
+        "amount": 84.48
+    }
+]
+  }
+```
+
+### Error Scenarios:
+- **Invalid Username:** Expect a 400 Bad Request response with an appropriate error message.
+  ### Expected Response:
+  ```json
+  {
+    "timestamp": "2024-05-23T20:20:12.2185456",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Invalid username",
+    "path": "/casino/admin/player/transactions"
+}
+```
+
+
+
 
 
