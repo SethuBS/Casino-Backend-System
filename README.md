@@ -90,5 +90,5 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 
 1. **Clone the Repository**
    ```sh
-   git clone https://github.com/your-repo/casino-backend-system.git
+   git clone https://github.com/SethuBS/Casino-Backend-System.git
    cd casino-backend-system
