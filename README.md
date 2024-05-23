@@ -144,7 +144,132 @@ Welcome to the Casino Backend System project! This project is a proof of concept
     "transactionType": "WAGER"
     }
     ```
+### Steps:
+
+1. Open Postman and create a new GET request.
+2. Enter the URL `http://localhost:8080/casino/player/1/balance.`
+3. Click Send.
+### Expected Response:
+```json
+{
+    "playerId": 1,
+    "balance": 100.00
+}
+```
+### Error Scenarios:
+
+- ***Invalid Player ID:*** When an invalid `playerId` is provided, expect a 400 Bad Request response with an appropriate error message.
+  ### Expected Response:
+  ```json
+    {
+    "timestamp": "2024-05-23T19:36:43.4585764",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Invalid player Id",
+    "path": "/casino/player/2/balance"
+    }
+  ```
+  
+**2. Update Player Balance**
+***Scenario 1:*** Update the balance of a player with a valid wager transaction.
+
+-**Method:** POST
+-**URL:** `http://localhost:8080/casino/player/{playerId}/balance/update`
+-**Path Variable:** `playerId` - The ID of the player (e.g., `1`).
+-**Request Body:**
+```json
+{
+    "amount": 10.00,
+    "transactionType": "WAGER"
+}
+
+```
+### Steps:
+
+1. Open Postman and create a new POST request.
+2. Enter the URL `http://localhost:8080/casino/player/1/balance/update`.
+3. Set the request body to:
+   ```json
+   {
+    "amount": 10.00,
+    "transactionType": "WAGER"
+   }
+```
+4. Click `Send`.
+
+**Expected Response:**
+```json
+{
+    "transactionId": 123456,
+    "balance": 90.00
+}
+```
+
+***Scenario 2***: Update the balance of a player with a valid win transaction.
+
+-**Request Body:**
+```json
+{
+    "amount": 50.00,
+    "transactionType": "WIN"
+}
+```
 
 
+### Steps:
+
+1. Follow the same steps as Scenario 1, but change the request body to:
+```json
+{
+    "amount": 50.00,
+    "transactionType": "WIN"
+}
+```
+2. Click `Send`.
+
+### Expected Response:
+```json
+{
+    "transactionId": 123457,
+    "balance": 140.00
+}
+```
+
+
+### Error Scenarios:
+
+-***Invalid Player ID:*** Expect a 400 Bad Request response with an appropriate error message.
+### Expected Response:
+```json
+{
+    "timestamp": "2024-05-23T19:51:20.1362507",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Invalid player Id",
+    "path": "/casino/player/2/balance/update"
+}
+```
+-***Negative Amount:*** Expect a 400 Bad Request response if the amount is negative.
+### Expected Response:
+```json
+{
+    "timestamp": "2024-05-23T19:54:03.3576626",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Amount must be positive",
+    "path": "/casino/player/1/balance/update"
+}
+```
+-***Wager Greater than Balance:*** Expect a 418 I'm a teapot response if the wager amount exceeds the current balance.
+### Expected Response:
+```json
+{
+    "timestamp": "2024-05-23T19:54:42.8266459",
+    "status": 418,
+    "error": "I_AM_A_TEAPOT",
+    "reason": "Wager greater than current balance",
+    "path": "/casino/player/1/balance/update"
+}
+```
 
 
