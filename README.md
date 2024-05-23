@@ -149,7 +149,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 ```json
 {
     "amount": "259.80",
-    "transactionType": "Win"
+    "transactionType": "WIN"
 }
 ```
 
@@ -162,14 +162,14 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 ```json
 {
     "playerId": 1,
-    "balance": 100.00
+    "balance": 703.85
 }
 ```
 ### Error Scenarios:
 
 - ***Invalid Player ID:*** When an invalid `playerId` is provided, expect a 400 Bad Request response with an appropriate error message.
   ### Expected Response:
-  ```json
+```json
 {
     "timestamp": "2024-05-23T19:36:43.4585764",
     "status": 400,
@@ -177,7 +177,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
     "reason": "Invalid player Id",
     "path": "/casino/player/2/balance"
 }
-  ```
+```
   
 **2. Update Player Balance**
 ***Scenario 1:*** Update the balance of a player with a valid wager transaction.
@@ -188,7 +188,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 -**Request Body:**
 ```json
 {
-    "amount": 10.00,
+    "amount": "555.95",
     "transactionType": "WAGER"
 }
 
@@ -200,7 +200,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 3. Set the request body to:
 ```json
 {
-    "amount": 10.00,
+    "amount": "555.95",
     "transactionType": "WAGER"
 }
 ```
@@ -209,8 +209,8 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 **Expected Response:**
 ```json
 {
-    "transactionId": 123456,
-    "balance": 90.00
+    "transactionId": 14,
+    "balance": 147.90
 }
 ```
 
@@ -219,7 +219,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 -**Request Body:**
 ```json
 {
-    "amount": 50.00,
+    "amount": "259.80",
     "transactionType": "WIN"
 }
 ```
@@ -230,7 +230,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 1. Follow the same steps as Scenario 1, but change the request body to:
 ```json
 {
-    "amount": 50.00,
+    "amount": "259.80",
     "transactionType": "WIN"
 }
 ```
@@ -239,8 +239,8 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 ### Expected Response:
 ```json
 {
-    "transactionId": 123457,
-    "balance": 140.00
+    "transactionId": 15,
+    "balance": 407.70
 }
 ```
 
@@ -251,32 +251,79 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 ### Expected Response:
 ```json
 {
-    "timestamp": "2024-05-23T19:51:20.1362507",
+    "timestamp": "2024-05-24T01:18:16.468924",
     "status": 400,
     "error": "BAD_REQUEST",
-    "reason": "Invalid player Id",
-    "path": "/casino/player/2/balance/update"
+    "reason": "The player ID you provided is not valid. Please enter a valid player ID.",
+    "path": "/casino/player/12/balance/update"
 }
 ```
-- ***Negative Amount:*** Expect a 400 Bad Request response if the amount is negative.
+- ***Negative and zero Amount:*** Expect a 400 Bad Request response if the amount is negative.
+
+### Resquests:
+```json
+{
+    "amount": "-259.80",
+    "transactionType": "WIN"
+}
+```
+```json
+{
+    "amount": "0",
+    "transactionType": "WIN"
+}
+```
 ### Expected Response:
 ```json
 {
-    "timestamp": "2024-05-23T19:54:03.3576626",
+    "timestamp": "2024-05-24T01:23:18.2405215",
     "status": 400,
     "error": "BAD_REQUEST",
-    "reason": "Amount must be positive",
+    "reason": "The amount must be a positive value. Please enter a valid amount greater than zero.",
     "path": "/casino/player/1/balance/update"
 }
 ```
 - ***Wager Greater than Balance:*** Expect a 418 I'm a teapot response if the wager amount exceeds the current balance.
+### Current balance:
+```json
+{
+    "playerId": 1,
+    "balance": 371.35
+}
+```
+### Request: 
+```json
+{
+    "amount": "555.95",
+    "transactionType": "WAGER"
+}
+```
 ### Expected Response:
 ```json
 {
-    "timestamp": "2024-05-23T19:54:42.8266459",
+    "timestamp": "2024-05-24T01:33:01.6158505",
     "status": 418,
     "error": "I_AM_A_TEAPOT",
-    "reason": "Wager greater than current balance",
+    "reason": "You do not have sufficient balance to place this wager. Please adjust your wager to be within your available balance.",
+    "path": "/casino/player/1/balance/update"
+}
+```
+- ***Invalid Transaction Type:*** Expect a 400 Bad Request response with an appropriate error message.
+### Request:
+```json
+{
+    "amount": "555.95",
+    "transactionType": "Invalid"
+}
+```
+
+### Expected Response:
+```json
+{
+    "timestamp": "2024-05-24T01:36:41.7055018",
+    "status": 400,
+    "error": "BAD_REQUEST",
+    "reason": "Invalid transaction type: Invalid. Please ensure that you use 'WIN' or 'WAGER' as the transaction type.",
     "path": "/casino/player/1/balance/update"
 }
 ```
@@ -290,7 +337,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 - **Request Body:**
 ```json
 {
-    "username": "player1"
+    "username": "test_player"
 }
 ```
 ### Steps:
@@ -300,7 +347,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 3. Set the request body to:
 ```json
 {
-    "username": "player1"
+    "username": "test_player"
 }
 ```
 Click `Send`.
@@ -365,17 +412,24 @@ Click `Send`.
 
 ### Error Scenarios:
 - **Invalid Username:** Expect a 400 Bad Request response with an appropriate error message.
+  ### Request:
+```json
+{
+    "username": "live_player"
+}
+```
   ### Expected Response:
 
 ```json
-  {
-    "timestamp": "2024-05-23T20:20:12.2185456",
+{
+    "timestamp": "2024-05-24T01:43:51.7161307",
     "status": 400,
     "error": "BAD_REQUEST",
-    "reason": "Invalid username",
+    "reason": "The username you provided is not recognized. Please enter a valid username.",
     "path": "/casino/admin/player/transactions"
-  }
+}
 ```
+**Want to use Swagger UI?** http://localhost:8080/swagger-ui/index.html
 
 # Future Improvements
 - Expand the database integration for production use.
