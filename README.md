@@ -115,7 +115,7 @@ Welcome to the Casino Backend System project! This project is a proof of concept
   {
     "playerId": 1,
     "balance": 100.00
-}
+  }
   ```
 
 #### Error Scenarios:
@@ -129,8 +129,8 @@ Welcome to the Casino Backend System project! This project is a proof of concept
     "error": "BAD_REQUEST",
     "reason": "Invalid player Id",
     "path": "/casino/player/2/balance"
-}
-    ```
+    }
+  ```
     
 2. ### Update Player Balance
    ***Scenario 1:*** Update the balance of a player with a valid wager transaction.
@@ -139,10 +139,10 @@ Welcome to the Casino Backend System project! This project is a proof of concept
 - **Path Variable:** `playerId` - The ID of the player (e.g., `1`).
 - **Request Body:**
    ```json
-   {
+     {
     "amount": 10.00,
     "transactionType": "WAGER"
-}
+    }
     ```
 
 
