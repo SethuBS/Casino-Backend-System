@@ -5,6 +5,7 @@ import com.casino.backend.entity.Transaction;
 import com.casino.backend.enums.TransactionType;
 import com.casino.backend.repository.PlayerRepository;
 import com.casino.backend.repository.TransactionRepository;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Random;
 
+@AllArgsConstructor
 @Component
 public class DataLoader implements CommandLineRunner {
 

@@ -14,6 +14,7 @@ import com.casino.backend.request.UpdateBalanceRequest;
 import com.casino.backend.response.BalanceResponse;
 import com.casino.backend.response.Last10TransactionResponse;
 import com.casino.backend.response.UpdateBalanceResponse;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+@AllArgsConstructor
 @Service
 public class PlayerService {
 

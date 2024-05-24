@@ -7,6 +7,7 @@ import com.casino.backend.response.BalanceResponse;
 import com.casino.backend.response.Last10TransactionResponse;
 import com.casino.backend.response.UpdateBalanceResponse;
 import com.casino.backend.service.PlayerService;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@AllArgsConstructor
 @Log4j2
 @CrossOrigin("*")
 @RestController
