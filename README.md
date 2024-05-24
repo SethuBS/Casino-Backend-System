@@ -171,10 +171,10 @@ Welcome to the Casino Backend System project! This project is a proof of concept
   ### Expected Response:
 ```json
 {
-    "timestamp": "2024-05-23T19:36:43.4585764",
+    "timestamp": "2024-05-24T00:35:53.3791257",
     "status": 400,
     "error": "BAD_REQUEST",
-    "reason": "Invalid player Id",
+    "reason": "The player ID you provided is not valid. Please enter a valid player ID.",
     "path": "/casino/player/2/balance"
 }
 ```
