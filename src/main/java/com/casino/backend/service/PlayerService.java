@@ -46,20 +46,15 @@ public class PlayerService {
 
 
     public BalanceResponse getBalance(Integer playerId) {
-        try {
-            var player = playerRepository.findById(playerId)
-                    .orElseThrow(() -> new PlayerNotFoundException("The player ID you provided is not valid. Please enter a valid player ID."));
+        var player = playerRepository.findById(playerId)
+                .orElseThrow(() -> new PlayerNotFoundException("The player ID you provided is not valid. Please enter a valid player ID."));
 
-            logger.info("Player: {}", player);
-            return BalanceResponse
-                    .builder()
-                    .playerId(player.getPlayerId())
-                    .balance(player.getBalance())
-                    .build();
-
-        } catch (PlayerNotFoundException e) {
-            throw new InvalidTransactionException(e.getMessage());
-        }
+        logger.info("Player: {}", player);
+        return BalanceResponse
+                .builder()
+                .playerId(player.getPlayerId())
+                .balance(player.getBalance())
+                .build();
     }
 
     public Player getPlayerByUsername(String username) {
@@ -88,12 +83,6 @@ public class PlayerService {
                     .balance(player.getBalance())
                     .build();
 
-        } catch (PlayerNotFoundException e) {
-            throw new PlayerNotFoundException(e.getMessage());
-        } catch (InvalidTransactionException e) {
-            throw new InvalidTransactionException(e.getMessage());
-        } catch (InsufficientBalanceException e) {
-            throw new InsufficientBalanceException(e.getMessage());
         } finally {
             lock.unlock();
         }
@@ -125,32 +114,27 @@ public class PlayerService {
     }
 
     private Transaction buildTransaction(Player player, TransactionType transactionType, BigDecimal amount) {
-        Transaction transaction = new Transaction();
-        transaction.setPlayer(player);
-        transaction.setAmount(amount);
-        transaction.setTransactionType(transactionType);
-        transaction.setTimestamp(LocalDateTime.now());
-        return transaction;
+        return Transaction.builder()
+                .player(player)
+                .amount(amount)
+                .transactionType(transactionType)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
     public List<Last10TransactionResponse> getLast10Transactions(Player player) {
-        try {
-            List<Transaction> transactions = transactionRepository.findTop10ByPlayerOrderByTimestampDesc(player);
-            List<Last10TransactionResponse> last10TransactionResponseList = new ArrayList<>();
-            for (var transaction : transactions) {
-                var transactionResponse = Last10TransactionResponse
-                        .builder()
-                        .transactionType(transaction.getTransactionType())
-                        .transactionId(transaction.getTransactionId())
-                        .amount(transaction.getAmount())
-                        .build();
-                last10TransactionResponseList.add(transactionResponse);
-            }
-            logger.info("Top: {} transactions: {}", last10TransactionResponseList.size(), last10TransactionResponseList);
-            return last10TransactionResponseList;
-
-        } catch (PlayerUserNameNotFoundException e) {
-            throw new PlayerUserNameNotFoundException(e.getMessage());
+        List<Transaction> transactions = transactionRepository.findTop10ByPlayerOrderByTimestampDesc(player);
+        List<Last10TransactionResponse> last10TransactionResponseList = new ArrayList<>();
+        for (var transaction : transactions) {
+            var transactionResponse = Last10TransactionResponse
+                    .builder()
+                    .transactionType(transaction.getTransactionType())
+                    .transactionId(transaction.getTransactionId())
+                    .amount(transaction.getAmount())
+                    .build();
+            last10TransactionResponseList.add(transactionResponse);
         }
+        logger.info("Top: {} transactions: {}", last10TransactionResponseList.size(), last10TransactionResponseList);
+        return last10TransactionResponseList;
     }
 }
