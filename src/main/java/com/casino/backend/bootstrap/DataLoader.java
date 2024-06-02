@@ -52,6 +52,12 @@ public class DataLoader implements CommandLineRunner {
             transaction.setTimestamp(LocalDateTime.now().minusDays(random.nextInt(30)));
             transactionRepository.save(transaction);
             logger.info("saved transaction: {}", transaction);
+            var newBalance = TransactionType.WAGER.equals(transaction.getTransactionType())
+                    ? newPlayer.getBalance().subtract(transaction.getAmount())
+                    : newPlayer.getBalance().add(transaction.getAmount());
+            newPlayer.setBalance(newBalance);
+            playerRepository.save(newPlayer);
+
         }
     }
 }
