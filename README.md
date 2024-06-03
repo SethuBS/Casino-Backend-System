@@ -442,6 +442,9 @@ Contributions are welcome! Please fork the repository and create a pull request 
 # License
 This project is licensed under the MIT License. See the [MIT License](LICENSE) file for details.
 
+# Contact
+For any questions or issues, please contact ***Sethu Budaza*** at sethuserge@gmail.com.
+
 
 
 
